@@ -4,9 +4,11 @@
 //█  ████  █████  ████████  █████  ██████████████  █████  █████  ████  ██  ███  ███  █  █  █\\
 //█       ██████  ████████  █████        ███      ██████  ██████      ███  ████  ██  ████  █\\
 
-// testing!!!
+// Copyright 2024 ByteStorm & Katsito
 
+// Todos los derechos reservados. Ninguna parte de este código puede ser utilizada, modificada, o redistribuida sin el permiso explícito del autor.
 
+// Mirar "LICENSE" para mayor informacion del producto y licencia de el.
 
 #include <windows.h>
 #include <gdiplus.h>
