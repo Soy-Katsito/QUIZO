@@ -10,151 +10,356 @@
 
 // Mirar "LICENSE" para mayor informacion del producto y licencia de el.
 
-#include <windows.h>
-#include <gdiplus.h>
 #include <iostream>
+#include <windows.h>
 #include <tlhelp32.h>
+#include <string>
+#include <thread>
+#include <vector>
+#include <wininet.h>
+#include <urlmon.h>
 
-#pragma comment(lib, "Gdiplus.lib")
 
-using namespace Gdiplus;
+#pragma comment(lib, "urlmon.lib")
+#pragma comment(lib, "wininet.lib")
 
-HHOOK keyboardHook;
+std::vector<std::vector<std::wstring>> questionVariations = {
+    {L"Pregunta 1: Cual es la capital de Francia?", L"Pregunta 1: Que ciudad es la capital de Francia?", L"Pregunta 1: En que ciudad esta la capital de Francia?"},
+    {L"Pregunta 2: Cual es el numero mas pequeno?", L"Pregunta 2: Que numero es menor?", L"Pregunta 2: Cual es el menor de estos numeros?"},
+    {L"Pregunta 3: Cual es el color del cielo en un dia claro?", L"Pregunta 3: Que color tiene el cielo en un dia despejado?", L"Pregunta 3: De que color es el cielo en un dia soleado?"}
+};
 
-void InitGDIPlus(ULONG_PTR& gdiplusToken) {
-    GdiplusStartupInput gdiplusStartupInput;
-    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-}
+std::vector<std::vector<std::wstring>> answers = {
+    {L"Londres", L"París", L"Roma", L"Madrid"},
+    {L"3", L"1", L"5", L"2"},
+    {L"Rojo", L"Azul", L"Verde", L"Amarillo"}
+};
 
-void ShutdownGDIPlus(ULONG_PTR& gdiplusToken) {
-    GdiplusShutdown(gdiplusToken);
-}
-
-void CloseExplorer() {
-    system("taskkill /f /im explorer.exe");
-}
-
-void StartExplorer() {
-    system("start explorer.exe");
-}
-
-LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
-    if (nCode == HC_ACTION) {
-        KBDLLHOOKSTRUCT* pKeyboard = (KBDLLHOOKSTRUCT*)lParam;
-        if (pKeyboard->vkCode == VK_LWIN || pKeyboard->vkCode == VK_RWIN ||
-            (pKeyboard->vkCode == VK_TAB && GetAsyncKeyState(VK_MENU)) ||
-            (pKeyboard->vkCode == VK_ESCAPE && GetAsyncKeyState(VK_CONTROL))) {
-            return 1;
+std::wstring urlEncode(const std::wstring& str) {
+    std::wstring encoded;
+    wchar_t hex[4];
+    for (wchar_t c : str) {
+        if ((c >= L'A' && c <= L'Z') || (c >= L'a' && c <= L'z') || (c >= L'0' && c <= L'9') || c == L'-' || c == L'_' || c == L'.' || c == L'~') {
+            encoded += c;
+        }
+        else {
+            swprintf(hex, sizeof(hex) / sizeof(hex[0]), L"%%%02X", c);
+            encoded += hex;
         }
     }
-    return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
+    return encoded;
 }
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    switch (uMsg) {
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hwnd, &ps);
+int currentQuestion = 0;
+std::vector<std::wstring> allAnswers;
+std::wstring deviceName;
 
-        Graphics graphics(hdc);
-        HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255));
-        FillRect(hdc, &ps.rcPaint, hBrush);
-        DeleteObject(hBrush);
+std::wstring getWindowTitle(HWND hwnd) {
+    wchar_t windowTitle[256];
+    GetWindowText(hwnd, windowTitle, 256);
+    return std::wstring(windowTitle);
+}
 
-        FontFamily fontFamily(L"Segoe UI");
-        Font font(&fontFamily, 36, FontStyleBold, UnitPixel);
-        PointF point(50.0f, 50.0f);
-        SolidBrush solidBrush(Color(255, 0, 0, 0));
-
-        graphics.DrawString(L"Funciona", -1, &font, point, &solidBrush);
-
-        EndPaint(hwnd, &ps);
+void updateQuestion(HWND hwnd) {
+    if (currentQuestion >= questionVariations.size()) {
+        std::wstring finalMessage = L"Has completado todas las preguntas.";
+        MessageBox(hwnd, finalMessage.c_str(), L"¡Gracias!", MB_OK | MB_ICONINFORMATION);
+        DestroyWindow(hwnd);
+        return;
     }
-    return 0;
 
-    case WM_CLOSE:
+    SetWindowText(GetDlgItem(hwnd, 1), questionVariations[currentQuestion][0].c_str());
+    for (int i = 0; i < 4; ++i) {
+        SetWindowText(GetDlgItem(hwnd, 2 + i), answers[currentQuestion][i].c_str());
+    }
+}
+
+void sendAnswersToWeb(const std::wstring& teamName, const std::vector<std::wstring>& answers) {
+    std::wstring encodedTeamName = urlEncode(teamName);
+    std::wstring encodedAnswers;
+
+    for (size_t i = 0; i < answers.size(); ++i) {
+        if (!encodedAnswers.empty()) {
+            encodedAnswers += L"&";
+        }
+        encodedAnswers += L"answer" + std::to_wstring(i + 1) + L"=" + urlEncode(answers[i]);
+    }
+
+    std::wstring url = L"https://byte-storm.katsito.xyz/proyects/QUIZO/submit_answer.php?team=" + encodedTeamName + L"&" + encodedAnswers + L"&device=" + urlEncode(deviceName);
+
+    std::wcout << L"URL: " << url << std::endl; // Imprimir URL para depuración
+
+    HRESULT hr = URLDownloadToFileW(NULL, url.c_str(), L"response.txt", 0, NULL);
+    if (SUCCEEDED(hr)) {
+        std::wcout << L"Response sent successfully." << std::endl;
+    }
+    else {
+        std::wcout << L"Failed to send response." << std::endl;
+    }
+}
+
+LRESULT CALLBACK SurveyWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    static HWND hQuestionLabel, hAnswerButtons[4];
+    static HFONT hFont;
+    static HBRUSH hBackgroundBrush;
+    static std::wstring teamName = L"Team1"; // Replace with dynamic team name if needed
+
+    switch (uMsg) {
+    case WM_CREATE:
+        hFont = CreateFont(
+            22,                        // Font height
+            0,                         // Font width (0 means default width)
+            0,                         // Angle of the font
+            0,                         // Base line of the font
+            FW_NORMAL,                 // Font weight
+            FALSE,                     // Italic
+            FALSE,                     // Underline
+            FALSE,                     // Strike out
+            DEFAULT_CHARSET,           // Character set
+            OUT_DEFAULT_PRECIS,        // Output precision
+            CLIP_DEFAULT_PRECIS,       // Clipping precision
+            CLEARTYPE_QUALITY,         // Font quality
+            DEFAULT_PITCH,             // Pitch and family
+            L"Segoe UI"                // Font name
+        );
+
+        hBackgroundBrush = CreateSolidBrush(RGB(240, 240, 240)); // Background color
+
+        hQuestionLabel = CreateWindowEx(
+            0, L"STATIC", NULL,
+            WS_CHILD | WS_VISIBLE | SS_CENTER | SS_NOPREFIX,
+            10, 20, 460, 60, hwnd, (HMENU)1, ((LPCREATESTRUCT)lParam)->hInstance, NULL
+        );
+        SendMessage(hQuestionLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
+        SetBkMode(GetDC(hwnd), TRANSPARENT); // Make background of the text transparent
+        SetTextColor(GetDC(hwnd), RGB(0, 0, 0)); // Set text color
+
+        for (int i = 0; i < 4; ++i) {
+            hAnswerButtons[i] = CreateWindowEx(
+                0, L"BUTTON", NULL,
+                WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_FLAT | BS_CENTER,
+                50 + (i % 2) * 200, 100 + (i / 2) * 70, 180, 50, hwnd, (HMENU)(2 + i), ((LPCREATESTRUCT)lParam)->hInstance, NULL
+            );
+            SendMessage(hAnswerButtons[i], WM_SETFONT, (WPARAM)hFont, TRUE);
+            // Simplify button styling
+        }
+
+        updateQuestion(hwnd);
+        return 0;
+
+    case WM_COMMAND:
+        if (LOWORD(wParam) >= 2 && LOWORD(wParam) <= 5) {
+            int answerIndex = LOWORD(wParam) - 2;
+            std::wstring selectedAnswer = answers[currentQuestion][answerIndex];
+
+            allAnswers.push_back(selectedAnswer);
+
+            ++currentQuestion;
+            updateQuestion(hwnd);
+        }
+        return 0;
+
+    case WM_KEYDOWN:
+        if (wParam == 'C') {
+            DestroyWindow(hwnd);
+        }
+        return 0;
+
+    case WM_DESTROY:
+        if (currentQuestion >= questionVariations.size()) {
+            sendAnswersToWeb(teamName, allAnswers);
+        }
+        PostQuitMessage(0);
+        return 0;
+    }
+
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+LRESULT CALLBACK WaitOperatorWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    switch (uMsg) {
+    case WM_CREATE:
+        CreateWindowEx(
+            0, L"STATIC", L"Esperar al operador o administrador, ya se contactaran contigo rapidamente!.",
+            WS_CHILD | WS_VISIBLE | SS_CENTER,
+            10, 50, 460, 50, hwnd, NULL, ((LPCREATESTRUCT)lParam)->hInstance, NULL
+        );
+        return 0;
+
+    case WM_KEYDOWN:
+        if (wParam == 'C') {
+            DestroyWindow(hwnd);
+            system("explorer.exe");
+        }
         return 0;
 
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
     }
+
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-int main() {
-    ULONG_PTR gdiplusToken;
-    InitGDIPlus(gdiplusToken);
+void createWaitOperatorWindow() {
+    const wchar_t CLASS_NAME[] = L"WaitOperatorWindowClass";
 
-    LPCWSTR CLASS_NAME = L"Ventana Principal";
     WNDCLASS wc = {};
-
-    wc.lpfnWndProc = WindowProc;
+    wc.lpfnWndProc = WaitOperatorWindowProc;
     wc.hInstance = GetModuleHandle(NULL);
     wc.lpszClassName = CLASS_NAME;
-    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 
     RegisterClass(&wc);
 
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-
     HWND hwnd = CreateWindowEx(
-        WS_EX_TOPMOST | WS_EX_TOOLWINDOW,
+        WS_EX_TOPMOST,
         CLASS_NAME,
-        L"Ventana",
+        L"Esperar al operador",
         WS_POPUP,
-        0, 0, screenWidth, screenHeight,
-        NULL, NULL, wc.hInstance, NULL
+        0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
+        NULL,
+        NULL,
+        GetModuleHandle(NULL),
+        NULL
     );
 
     if (hwnd == NULL) {
-        std::cerr << "No se pudo crear la ventana.\n";
-        ShutdownGDIPlus(gdiplusToken);
-        return 0;
+        return;
     }
 
     ShowWindow(hwnd, SW_SHOWMAXIMIZED);
-    SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, screenWidth, screenHeight, SWP_SHOWWINDOW);
 
-    ShowCursor(FALSE);
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
 
-    CloseExplorer();
+void createSurveyWindow() {
+    const wchar_t CLASS_NAME[] = L"SurveyWindowClass";
 
-    keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, NULL, 0);
-    if (!keyboardHook) {
-        std::cerr << "No se pudo instalar el hook del teclado.\n";
-        ShutdownGDIPlus(gdiplusToken);
-        return 0;
+    WNDCLASS wc = {};
+    wc.lpfnWndProc = SurveyWindowProc;
+    wc.hInstance = GetModuleHandle(NULL);
+    wc.lpszClassName = CLASS_NAME;
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+
+    RegisterClass(&wc);
+
+    HWND hwnd = CreateWindowEx(
+        WS_EX_TOPMOST,
+        CLASS_NAME,
+        L"Encuesta",
+        WS_POPUP,
+        0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
+        NULL,
+        NULL,
+        GetModuleHandle(NULL),
+        NULL
+    );
+
+    if (hwnd == NULL) {
+        return;
     }
 
-    MSG msg = {};
+    wchar_t computerName[256];
+    DWORD size = sizeof(computerName) / sizeof(computerName[0]);
+    GetComputerName(computerName, &size);
+    deviceName = computerName;
+
+    std::wcout << L"Device Name: " << deviceName << std::endl;
+
+    ShowWindow(hwnd, SW_SHOWMAXIMIZED);
+
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+
+    createWaitOperatorWindow();
+}
+
+BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
+    std::wstring title = getWindowTitle(hwnd);
+
+    if (title.find(L"ChatGPT") != std::wstring::npos) {
+        wchar_t computerName[256];
+        DWORD size = sizeof(computerName) / sizeof(computerName[0]);
+        GetComputerName(computerName, &size);
+
+        std::wstring message = L"Se detecto ChatGPT en dispositivo: ";
+        message += computerName;
+
+        MessageBox(NULL, message.c_str(), L"Detección", MB_OK | MB_ICONINFORMATION);
+
+        DWORD processId;
+        GetWindowThreadProcessId(hwnd, &processId);
+        HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, processId);
+        if (hProcess != NULL) {
+            TerminateProcess(hProcess, 0);
+            CloseHandle(hProcess);
+        }
+    }
+
+    return TRUE;
+}
+
+void detectChatGPT() {
+    std::wcout << L"Iniciando Menu..." << std::endl;
     while (true) {
-        if (GetAsyncKeyState('Q') & 0x8000) {
-            PostQuitMessage(0);
-            break;
-        }
+        EnumWindows(EnumWindowsProc, 0);
+        Sleep(1000);
+    }
+}
 
-        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+void terminateExplorer() {
+    HANDLE hProcessSnap;
+    PROCESSENTRY32 pe32;
+    hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
-            if (msg.message == WM_QUIT)
-                break;
-        }
-
-        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, screenWidth, screenHeight, SWP_NOMOVE | SWP_NOSIZE);
-        SetFocus(hwnd);
+    if (hProcessSnap == INVALID_HANDLE_VALUE) {
+        return;
     }
 
-    ShowCursor(TRUE);
+    pe32.dwSize = sizeof(PROCESSENTRY32);
 
-    UnhookWindowsHookEx(keyboardHook);
+    if (!Process32First(hProcessSnap, &pe32)) {
+        CloseHandle(hProcessSnap);
+        return;
+    }
 
-    StartExplorer();
+    do {
+        if (wcscmp(pe32.szExeFile, L"explorer.exe") == 0) {
+            HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pe32.th32ProcessID);
+            if (hProcess != NULL) {
+                TerminateProcess(hProcess, 0);
+                CloseHandle(hProcess);
+            }
+        }
+    } while (Process32Next(hProcessSnap, &pe32));
 
-    ShutdownGDIPlus(gdiplusToken);
+    CloseHandle(hProcessSnap);
+}
 
+void blockCtrlAltDel() {
+    // Nota: Bloquear Ctrl+Alt+Del no es generalmente posible desde aplicaciones en modo usuario debido a restricciones de seguridad
+    // y solo se puede hacer en versiones antiguas de Windows o en escenarios específicos.
+    // Esta función queda como un marcador de posición para indicar esta limitación.
+}
+
+int main() {
+    // terminateExplorer(); // Terminar explorer.exe al inicio
+    blockCtrlAltDel();   // Bloquear Ctrl+Alt+Del (no funcional en versiones modernas de Windows)
+    // system("taskkill /f /im explorer.exe");
+    //
+    std::thread messageWindowThread(createSurveyWindow);
+
+    detectChatGPT();
+    messageWindowThread.join();
     return 0;
 }
