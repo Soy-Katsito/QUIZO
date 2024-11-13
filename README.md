@@ -2,9 +2,9 @@
 
 <p align="center">
   Una aplicación innovadora para estudiantes que utiliza IA para evaluar su desempeño con precisión y seguridad, garantizando un entorno protegido y privado.
+  
 </p>
-![192106073-90fffafe-3562-4ff9-a37e-c77a2da0ff58](https://github.com/user-attachments/assets/79297f50-3118-4778-a586-785f6945be1d)
-
+<h1 align="center"><img alt="QUIZO" title="QUIZO" src="https://github.com/user-attachments/assets/79297f50-3118-4778-a586-785f6945be1d" width="50"></h1>
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
