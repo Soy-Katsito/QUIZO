@@ -16,9 +16,6 @@
 - [Funcionamiento](#funcionamiento)
 - [Proceso de Compilación](#proceso-de-compilación)
 - [Retroalimentación](#retroalimentación)
-- [Contribuidores](#contribuidores)
-- [Patrocinadores](#patrocinadores-)
-- [Agradecimientos](#agradecimientos)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
