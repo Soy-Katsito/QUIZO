@@ -56,4 +56,4 @@ La aplicación de ByteStorm facilita el acceso a herramientas de aprendizaje ava
 
 ## Retroalimentación
 
-Si tienes comentarios, sugerencias o encuentras algún problema, siéntete libre de contactarnos a través de [github issue](https://github.com/byte-storm/byte-storm-app/issues/new). ¡Las solicitudes de características siempre son bienvenidas!
+Si tienes comentarios, sugerencias o encuentras algún problema, siéntete libre de contactarnos a través de [github issue](https://github.com/Soy-Katsito/QUIZO/issues/new). ¡Las solicitudes de características siempre son bienvenidas!
