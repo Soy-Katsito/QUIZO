@@ -1,63 +1,67 @@
-Licencia de Uso Exclusivo de Código
+# Licencia de Uso Exclusivo de Código
 
-Copyright © 2024-2030 Katsito, ByteStorm. Todos los derechos reservados.
+**Copyright © 2024-2030 ByteStorm. Todos los derechos reservados.**
 
-1. Introducción
-Este documento establece los términos y condiciones bajo los cuales se puede utilizar el código fuente proporcionado por BYTE-STORM (en adelante, el "Código"). Al acceder o utilizar el Código, usted acepta cumplir con estos términos. Si no está de acuerdo con estos términos, no utilice el Código.
+## 1. Introducción
+Este documento establece los términos y condiciones bajo los cuales se puede utilizar el código fuente proporcionado por **ByteStorm**, empresa fundada por **Katsito** y con colaboración de **CHarmander58** (en adelante, el "Código"). Al acceder o utilizar el Código, usted acepta cumplir con estos términos. Si no está de acuerdo con estos términos, no utilice el Código.
 
-2. Propiedad y Derechos
-El Código es propiedad exclusiva de BYTE-STORM y está protegido por las leyes de derechos de autor y otras leyes de propiedad intelectual y tratados internacionales. El titular de los derechos de autor es Katsito. Todos los derechos, títulos e intereses sobre el Código, incluidos todos los derechos de propiedad intelectual, permanecen en el titular de los derechos de autor y en sus cesionarios autorizados.
+## 2. Propiedad y Derechos
+El Código es propiedad exclusiva de **ByteStorm** y está protegido por las leyes de derechos de autor, propiedad intelectual y tratados internacionales aplicables. El titular de los derechos de autor es **ByteStorm**, fundado por **Katsito**, con colaboración de **CHarmander58**. Todos los derechos, títulos e intereses sobre el Código, incluidos los derechos de propiedad intelectual y derivados, permanecen en **ByteStorm** y en sus cesionarios autorizados.
 
-3. Condiciones de Uso
+## 3. Condiciones de Uso
 
-3.1. Restricciones Generales
-No Modificación: Está estrictamente prohibido modificar, alterar, adaptar o realizar cualquier cambio en el Código sin la autorización previa y por escrito del titular de los derechos de autor.
-No Personalización: No se permite personalizar el Código para necesidades específicas o para cualquier otro propósito distinto al original.
-No Cambios: Queda prohibido cambiar, añadir o eliminar cualquier parte del Código sin el consentimiento expreso del titular de los derechos de autor.
-No Daño: El Código no puede ser utilizado de manera que cause daños, alteraciones o errores en el sistema o en la funcionalidad del Código, ya sea intencionalmente o accidentalmente.
-No Duplicación: La duplicación, reproducción o distribución del Código en cualquier formato, ya sea físico o digital, está prohibida sin la autorización expresa y por escrito del titular de los derechos de autor.
-No Redistribución: La redistribución del Código, ya sea en su forma original o modificada, está prohibida sin el permiso expreso y por escrito del titular de los derechos de autor.
+### 3.1. Restricciones Generales
+- **No Modificación:** Está estrictamente prohibido modificar, alterar, adaptar o realizar cualquier cambio en el Código sin la autorización previa y por escrito del titular de los derechos de autor.
+- **No Personalización:** No se permite personalizar el Código para necesidades específicas o para cualquier otro propósito distinto al original.
+- **No Cambios:** Queda prohibido cambiar, añadir o eliminar cualquier parte del Código sin el consentimiento expreso del titular de los derechos de autor.
+- **No Daño:** El Código no puede ser utilizado de manera que cause daños, alteraciones o errores en el sistema o en la funcionalidad del Código, ya sea intencionalmente o accidentalmente.
+- **No Duplicación:** La duplicación, reproducción o distribución del Código en cualquier formato, ya sea físico o digital, está prohibida sin la autorización expresa y por escrito del titular de los derechos de autor.
+- **No Redistribución:** La redistribución del Código, ya sea en su forma original o modificada, está prohibida sin el permiso expreso y por escrito del titular de los derechos de autor.
+- **No Manipulación Malintencionada:** Si se detecta, observa o se intenta generar aplicaciones, scripts o cualquier otro método que afecte la funcionalidad del Código, su desempeño o su estabilidad, **ByteStorm** tomará las medidas legales correspondientes para proteger sus derechos y asegurar el correcto funcionamiento del Código.
 
-3.2. Uso Exclusivo y Autorizado
-El uso del Código está restringido a los términos expresamente establecidos en esta licencia. Cualquier uso no autorizado del Código, ya sea total o parcial, está prohibido y puede dar lugar a acciones legales por parte del titular de los derechos de autor. El uso del Código fuera de los términos de esta licencia está sujeto a las leyes aplicables y a la jurisdicción competente.
+### 3.2. Uso Exclusivo y Autorizado
+El uso del Código está restringido a los términos expresamente establecidos en esta licencia. Cualquier uso no autorizado del Código, ya sea total o parcial, está prohibido y puede dar lugar a acciones legales por parte del titular de los derechos de autor.
 
-4. Garantías y Responsabilidades
+## 4. Garantías y Responsabilidades
 
-4.1. Sin Garantía
-El Código se proporciona "tal cual", sin garantías de ningún tipo, ya sean explícitas o implícitas, incluidas, entre otras, las garantías implícitas de comerciabilidad o idoneidad para un propósito particular. El titular de los derechos de autor no garantiza que el Código esté libre de errores, defectos, virus u otros componentes dañinos.
+### 4.1. Sin Garantía
+El Código se proporciona "tal cual", sin garantías de ningún tipo, ya sean explícitas o implícitas, incluidas, entre otras, las garantías implícitas de comerciabilidad o idoneidad para un propósito particular.
 
-4.2. Limitación de Responsabilidad
-En ningún caso el titular de los derechos de autor será responsable de ningún daño directo, indirecto, incidental, especial o consecuente que surja del uso o incapacidad para utilizar el Código, incluso si se ha advertido de la posibilidad de tales daños. Esta limitación de responsabilidad se aplica en la máxima medida permitida por la ley aplicable.
+### 4.2. Limitación de Responsabilidad
+En ningún caso **ByteStorm**, **Katsito** o **CHarmander58** serán responsables de ningún daño directo, indirecto, incidental, especial o consecuente que surja del uso o incapacidad para utilizar el Código.
 
-5. Permiso de Uso
-Para obtener permiso para cualquier uso del Código que no esté expresamente permitido por esta licencia, debe solicitar una autorización expresa y por escrito del titular de los derechos de autor. Las solicitudes de permiso deben enviarse a BYTE-STORM a la siguiente dirección:
+## 5. Registro y Propiedad del Código
+Todo el Código desarrollado y distribuido bajo esta licencia queda registrado oficialmente bajo la propiedad de **ByteStorm**, fundado por **Katsito** y con colaboración de **CHarmander58**. Cualquier versión derivada también estará sujeta a este registro y a los derechos de propiedad intelectual de **ByteStorm**.
 
-BYTE-STORM
-Atención: Katsito
-Correo Electrónico: katsito@katsito.xyz
+## 6. Permiso de Uso
+Para obtener permiso para cualquier uso del Código que no esté expresamente permitido por esta licencia, debe solicitar una autorización expresa y por escrito del titular de los derechos de autor. Las solicitudes de permiso deben enviarse a **ByteStorm** a la siguiente dirección:
 
-6. Modificaciones a la Licencia
-El titular de los derechos de autor se reserva el derecho de modificar los términos de esta licencia en cualquier momento. Las modificaciones entrarán en vigor inmediatamente después de su publicación en el repositorio de código o en la comunicación oficial del titular de los derechos de autor. Es responsabilidad del usuario revisar periódicamente la licencia para estar al tanto de cualquier cambio.
+**BYTE-STORM**  
+Atención: **Katsito**  
+Correo Electrónico: **katsito@katsito.xyz**
 
-7. Cumplimiento de la Ley
-Esta licencia se rige por las leyes de Bogota, Colombia , sin perjuicio de sus principios de conflicto de leyes. Cualquier disputa que surja en relación con esta licencia se resolverá exclusivamente en los tribunales competentes de Colombia. La invalidez de cualquier disposición de esta licencia no afectará la validez de las disposiciones restantes.
+## 7. Modificaciones a la Licencia
+**ByteStorm** se reserva el derecho de modificar los términos de esta licencia en cualquier momento. Las modificaciones entrarán en vigor inmediatamente después de su publicación en el repositorio de código o en la comunicación oficial del titular de los derechos de autor.
 
-8. Terminación
+## 8. Cumplimiento de la Ley
+Esta licencia se rige por las leyes de **Bogotá, Colombia**, sin perjuicio de sus principios de conflicto de leyes. Cualquier disputa que surja en relación con esta licencia se resolverá exclusivamente en los tribunales competentes de **Colombia**.
+
+## 9. Compatibilidad con Sistemas Operativos
+Este Código está diseñado para ser utilizado en los sistemas operativos **Windows** y **Mac OS**, garantizando su correcto funcionamiento en ambas plataformas. El incumplimiento de los términos de esta licencia en cualquiera de estos sistemas operativos será tratado con el mismo rigor y bajo las mismas restricciones legales.
+
+## 10. Terminación
 El incumplimiento de cualquiera de los términos y condiciones de esta licencia resultará en la terminación inmediata y automática de los derechos otorgados bajo esta licencia. En caso de terminación, el usuario debe cesar inmediatamente todo uso del Código y destruir cualquier copia en su posesión.
 
-9. Reconocimiento y Aceptación
+## 11. Protección de Datos Personales
+De acuerdo con la **Ley 1581 de 2012** y otras normas relacionadas en **Colombia**, el titular de los derechos de autor garantiza que cualquier dato personal recogido en relación con el uso del Código será tratado con la máxima confidencialidad y seguridad. El usuario tiene derecho a acceder, corregir o eliminar sus datos personales mediante una solicitud enviada al titular de los derechos de autor.
+
+## 12. Contacto
+Para cualquier consulta, solicitud de permiso o inquietud relacionada con esta licencia, por favor, póngase en contacto con **ByteStorm** a través de:
+
+**BYTE-STORM**  
+Atención: **Katsito**  
+Correo Electrónico: **katsito@katsito.xyz**
+
+---
+
 Al utilizar el Código, el usuario reconoce que ha leído, comprendido y acepta todos los términos y condiciones establecidos en esta licencia. El uso continuado del Código constituye una aceptación continua de los términos de esta licencia.
-
-10. Protección de Datos Personales
-De acuerdo con la Ley 1581 de 2012 y otras normas relacionadas en Colombia, el titular de los derechos de autor garantiza que cualquier dato personal recogido en relación con el uso del Código será tratado con la máxima confidencialidad y seguridad. Los datos personales no serán utilizados para ningún otro propósito que no sea el establecido en esta licencia. El usuario tiene derecho a acceder, corregir o eliminar sus datos personales mediante una solicitud enviada al titular de los derechos de autor a la dirección indicada a continuación:
-
-BYTE-STORM
-Atención: Katsito
-Correo Electrónico: katsito@katsito.xyz
-
-11. Contacto
-Para cualquier consulta, solicitud de permiso o inquietud relacionada con esta licencia, por favor, póngase en contacto con BYTE-STORM a través de:
-
-BYTE-STORM
-Atención: Katsito
-Correo Electrónico: katsito@katsito.xyz
