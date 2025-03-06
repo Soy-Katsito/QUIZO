@@ -6,6 +6,8 @@
 </p>
 <h1 align="center"><img alt="QUIZO" title="QUIZO" src="https://github.com/user-attachments/assets/79297f50-3118-4778-a586-785f6945be1d" width="50"></h1>
 
+"Quiero agradecer especialmente a Charmander58 por su invaluable colaboración en este proyecto. Su ayuda con el código para Windows y la solución desarrollada para macOS fueron fundamentales para mejorar la compatibilidad y funcionalidad del sistema. Su apoyo y conocimientos han sido clave para optimizar el desarrollo."
+
 ## Introducción
 
 Desde su fundación en 2024, ByteStorm ha trabajado en el desarrollo de herramientas tecnológicas innovadoras para la educación. QUIZO es el resultado de nuestro compromiso con la calidad y la equidad en la evaluación académica, proporcionando una plataforma confiable y eficiente para el aprendizaje.
