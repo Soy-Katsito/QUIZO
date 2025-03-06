@@ -5,8 +5,10 @@
   
 </p>
 <h1 align="center"><img alt="QUIZO" title="QUIZO" src="https://github.com/user-attachments/assets/79297f50-3118-4778-a586-785f6945be1d" width="50"></h1>
+
 ## Agradecimiento
-"Quiero agradecer especialmente a Charmander58 por su invaluable colaboración en este proyecto. Su ayuda con el código para Windows y la solución desarrollada para macOS fueron fundamentales para mejorar la compatibilidad y funcionalidad del sistema. Su apoyo y conocimientos han sido clave para optimizar el desarrollo."
+
+Quiero agradecer especialmente a Charmander58 por su invaluable colaboración en este proyecto. Su ayuda con el código para Windows y la solución desarrollada para macOS fueron fundamentales para mejorar la compatibilidad y funcionalidad del sistema. Su apoyo y conocimientos han sido clave para optimizar el desarrollo.
 
 ## Introducción
 
